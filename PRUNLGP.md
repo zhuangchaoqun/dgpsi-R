@@ -344,9 +344,9 @@ anything to GitHub. It takes longer because it rebuilds package documentation
 and runs both tutorials. The prunlgp reference and tutorials retain their
 page-specific author credits; other pages use the upstream package credits.
 The fork's published site is deployed from `gh-pages` after this executed build
-has been checked. The inherited upstream website workflow is disabled in this
-fork so a routine push cannot replace these results with unevaluated tutorial
-pages. The commands below run the package and native tests locally.
+has been checked. The inherited upstream website workflow does not run on
+`prunlgp-master`; use the executed build above when publishing this extension.
+The commands below run the package and native tests locally.
 
 ## 6. Run automated tests
 
@@ -387,7 +387,7 @@ remotes::install_deps(dependencies=TRUE, upgrade="never")
 **Terminal:**
 
 ```sh
-R CMD build --no-manual --no-build-vignettes .
+R CMD build --no-manual .
 R CMD check --no-manual --no-build-vignettes dgpsi_2.6.0-9000.tar.gz
 ```
 
@@ -413,6 +413,7 @@ runs can also take longer because Numba compiles numerical routines.
 | `Rscript` or `R` is not found in the terminal | Add your R installation's executable directory to PATH, or use the RStudio alternatives shown in this guide. Restart the terminal after changing PATH. |
 | Dependency compilation fails | Install the build tools matching your OS/R version and the system library named in the first build error. Then repeat the fork installation. |
 | GitHub download fails or reaches an API limit | Check network access to GitHub and retry. For authenticated downloads, configure a personal GitHub token through your local credential setup. |
+| Downloads work in a browser but time out in R | R may not inherit the system proxy. Configure R's `https_proxy` and `http_proxy` environment variables for your network, and increase `options(timeout=300)` if needed. |
 | Conda or Git cannot be found | Run `Sys.which("git")` and `reticulate::conda_binary()` in R. Install the missing tool, restart R and perform section 3 interactively. |
 | Python is already initialized from another environment | Restart R before `init_py()`. Inspect `Sys.getenv(c("RETICULATE_PYTHON", "RETICULATE_PYTHON_ENV", "VIRTUAL_ENV"))` for an unrelated override. Remove that override from this project's configuration if you intend to use the managed environment. |
 | A module is missing or the backend is inconsistent | After initialization, inspect `reticulate::py_config()` and `dgpsi.__file__` as above. Use the same explicit backend in examples, tests and workers. |

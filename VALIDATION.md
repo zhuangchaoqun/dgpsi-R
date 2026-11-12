@@ -82,6 +82,43 @@ error difference to a single upstream change.
 
 ## Checks and reproduction
 
+### New-fork verification, 12 November 2026
+
+The new public repository is a formal fork of `mingdeyu/dgpsi-R`. Its `master`
+branch remains at the upstream commit above. The complete contribution was
+migrated from source revision `04608eb41c729c2e7fcdecdea3d373daa104a0ac` without
+changing any R implementation, executable tutorial, test or example-data file.
+The former repository and its branches are retained as a private backup.
+
+The README's `remotes::install_github()` command installed source revision
+`9a61661751c86fb9512cf2e1dcc2ab7c4a39ebdf` into a separate R library. The export,
+installation directory and GitHub source metadata were checked. Subsequent
+edits only clarify documentation and record this verification.
+
+Fresh R sessions then ran:
+
+- All 12 native test cases: 48 passed expectations; no failures, warnings or skips.
+- All six R blocks in section 4 of `PRUNLGP.md`, unchanged and in order.
+- Both tutorial runners, fitting the models from scratch: about 77 seconds for
+  the synthetic example and 104 seconds for the operational example on this
+  machine while other checks were running.
+- `R CMD build --no-manual` followed by
+  `R CMD check --no-manual --no-build-vignettes`: **Status: OK**.
+
+The two new tutorial runs reproduce the tables above and retain respectively
+two and one internal connections. The README example reproduces the operational
+tutorial's per-output validation and test errors. Package and tutorial code,
+data and scientific settings were not changed to obtain these results.
+
+The R sessions and extension library were fresh; installed R dependencies and
+the recorded Python runtime were reused. This is a Windows/R 4.4.2 verification,
+not a clean operating-system installation or a cross-platform numerical test.
+Building the source archive without its vignette outputs produces two missing-
+vignette warnings; the documented check builds those outputs first. The native
+tests and executed tutorials are separate from the default package check.
+
+### Test coverage
+
 All 12 native tests and 48 expectations passed, with no failures, warnings or skips.
 The source build and `R CMD check --no-manual --no-build-vignettes` completed
 with Status OK. Executable tutorial chunks and the pruning implementation were
