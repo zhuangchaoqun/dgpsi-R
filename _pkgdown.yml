@@ -41,6 +41,8 @@ articles:
   - seq_design
   - seq_design_2
   - bayes_opt
+  - prunlgp
+  - prunlgp-operational
 
 reference:
 - title: "Initalization"
@@ -56,6 +58,7 @@ reference:
   - gp
   - dgp
   - lgp
+  - prunlgp
   - continue
   - predict
   - validate

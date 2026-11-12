@@ -1,5 +1,34 @@
 # dgpsi <img src="man/figures/logo.png" align="right" width="120" />
 
+## prunlgp: start here
+
+This branch adds `prunlgp()` for selecting the internal inputs of linked emulators.
+It is an extension of [Deyu Ming's dgpsi-R](https://github.com/mingdeyu/dgpsi-R),
+developed on upstream `master`. Install the complete extension in a fresh R session:
+
+```r
+install.packages("remotes")
+remotes::install_github("zhuangchaoqun/dgpsi-R", ref="prunlgp-master",
+                        dependencies=NA, upgrade="never", build_vignettes=FALSE)
+library(dgpsi)
+stopifnot("prunlgp" %in% getNamespaceExports("dgpsi"))
+init_py(py_ver="3.10", dgpsi_ver="dev")
+```
+
+**New users: follow the [complete English user guide](PRUNLGP.md)** for requirements,
+installation from this fork, a complete example using the supplied data, HTML
+rendering, automated tests, troubleshooting and runtime estimates.
+
+Then follow the
+[executed tutorial](https://zhuangchaoqun.github.io/dgpsi-R/articles/prunlgp.html)
+and [function reference](https://zhuangchaoqun.github.io/dgpsi-R/reference/prunlgp.html).
+The main example uses synthetic data with explicit generating equations. An
+[operational-data companion](https://zhuangchaoqun.github.io/dgpsi-R/articles/prunlgp-operational.html)
+reports the same procedure on de-identified measurements and records the
+comparison with the earlier R dev-based implementation.
+The contribution is based on the upstream `master` branch; the original package
+introduction and references are retained below.
+
 <!-- badges: start -->
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dgpsi)](https://CRAN.R-project.org/package=dgpsi)

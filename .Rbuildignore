@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.github$
+^\.git$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
@@ -20,3 +21,8 @@
 ^vignettes/seq_design_2.Rmd$
 ^vignettes/bayes_opt.Rmd$
 ^LICENSE\.md$
+^PRUNLGP\.md$
+^VALIDATION\.md$
+^tools$
+^tutorial-output$
+^site$

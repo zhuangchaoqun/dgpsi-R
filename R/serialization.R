@@ -282,6 +282,10 @@ deserialize <- function(object) {
         class(res) <- "dgp"
       }
     } else if (label == "lgp"){
+      # Reticulate converts data frames to dictionaries when pandas is absent.
+      # Restore the R metadata for both full and light serialisations.
+      res$specs$metadata <- as.data.frame(res$specs$metadata)
+      res$specs$struc <- as.data.frame(res$specs$struc)
       if ('emulator_obj' %in% names(res)){
         if (!'id' %in% names(res)) res[['id']] <- uuid::UUIDgenerate()
         class(res) <- "lgp"
@@ -290,8 +294,11 @@ deserialize <- function(object) {
           B <- res$specs$B
           extracted_struc <- res$constructor_obj
           set_seed(res$specs$seed)
-          obj <- pkg.env$dgpsi$lgp(all_layer = extracted_struc, N = B)
-          res[['emulator_obj']] <- obj
+          if (isTRUE(res$specs$prunlgp_component_streams)) {
+            res <- .prunlgp_activate(res, B, res$specs$seed)
+          } else {
+            res[['emulator_obj']] <- pkg.env$dgpsi$lgp(all_layer = extracted_struc, N = B)
+          }
           if (!'id' %in% names(res)) res[['id']] <- uuid::UUIDgenerate()
         } else {
           if (!'id' %in% names(res)) res[['id']] <- uuid::UUIDgenerate()
