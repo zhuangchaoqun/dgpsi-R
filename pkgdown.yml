@@ -1,0 +1,18 @@
+pandoc: 3.8.3
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles:
+  bayes_opt: bayes_opt.html
+  classification: classification.html
+  dgpsi: dgpsi.html
+  large_scale_emulation: large_scale_emulation.html
+  linked_DGP: linked_DGP.html
+  motorcycle: motorcycle.html
+  prunlgp-operational: prunlgp-operational.html
+  prunlgp: prunlgp.html
+  seq_design: seq_design.html
+  seq_design_2: seq_design_2.html
+last_built: 2026-11-12T13:54Z
+urls:
+  reference: https://zhuangchaoqun.github.io/dgpsi-R/reference
+  article: https://zhuangchaoqun.github.io/dgpsi-R/articles
