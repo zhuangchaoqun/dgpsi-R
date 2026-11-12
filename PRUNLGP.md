@@ -367,14 +367,14 @@ stopifnot(!any(test_table$skipped), !any(test_table$error),
 cat("Native prunlgp tests completed without failures, warnings or skips.\n")
 ```
 
-The verified revision reports **FAIL 0, WARN 0, SKIP 0, PASS 48** across 12 test
+The verified revision reports **FAIL 0, WARN 0, SKIP 0, PASS 52** across 13 test
 cases. Counts may change as tests are added; zero failures, warnings and skips
 are the success criteria for the complete native run. Without
 `DGPSI_RUN_PRUNLGP_TESTS=true`, only the lightweight tests execute and the Python
 tests are skipped: that is not a complete integration check.
 
 Coverage includes output-specific input deletion, grouped model copies,
-information propagation, zero internal links, saved-model restoration,
+information propagation, mixed global/internal input ordering, zero internal links, saved-model restoration,
 reproducibility, parallel candidates and invalid refits. This command tests the
 installed package; reinstall the fork after changing its source.
 
@@ -440,7 +440,11 @@ reticulate::py_config()  # after initializing the intended environment
 ## 8. Versions and optional backend pinning
 
 The recorded R baseline is upstream master commit
-`ecd384343c53903517aa903ed7c8a150f4c5dc93`. The current fork branch remains
+`ecd384343c53903517aa903ed7c8a150f4c5dc93`, with the `lgp()` mixed-input ordering
+correction ported from upstream dev `a62a319af8eeeafce541acade0887601b117e6f8`.
+The correction keeps deep-layer inputs and lengthscales aligned during linking;
+it does not change the pruning objective, fitting budget or example data.
+The current fork branch remains
 `prunlgp-master`; `gh-pages` holds the website. Numerical comparison records
 are in [VALIDATION.md](VALIDATION.md).
 

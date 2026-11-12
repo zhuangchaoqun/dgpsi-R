@@ -1,135 +1,119 @@
 # Validation
 
-This contribution is based on upstream R master commit
-`ecd384343c53903517aa903ed7c8a150f4c5dc93`. The earlier R dev-based results below
-were obtained at commit `a62a319af8eeeafce541acade0887601b117e6f8` and are retained
-as historical comparisons. In the new formal fork, `master` preserves the
-upstream baseline and `prunlgp-master` contains the extension. The previous
-repository is retained separately as a private backup.
+## Current implementation
 
-Both versions were evaluated on Windows 11 with R 4.4.2, Python 3.10.20 and
-Python dgpsi dev commit `480bb30260d3a1c22af1ddffe1a11df3e4de0820`. The Python
-backend was held fixed to isolate the change in the R upstream base.
+The fork is based on upstream R master
+`ecd384343c53903517aa903ed7c8a150f4c5dc93`, with the mixed-input ordering
+correction in `lgp()` ported from upstream dev
+`a62a319af8eeeafce541acade0887601b117e6f8`. The clean master branch remains
+unchanged. The DGP training constructor and prunlgp search and objective are
+unchanged.
 
-## Experimental settings
+The recorded environment is Windows 11, R 4.4.2, Python 3.10.20 and Python dgpsi
+source `480bb30260d3a1c22af1ddffe1a11df3e4de0820`. R sessions and package libraries
+are separate; existing dependencies and the Python runtime are reused.
 
-Both examples use five scalar DGPs, 40 training iterations, `ess_burn=10`, twenty
-imputations, seed 57 and `protect=0`. Original and reduced-input fits use matching
-group-specific seeds. The search minimises mean validation NRMSE and rejects
-any candidate that worsens a scored validation output. Candidate evaluation
-uses stable per-component imputation streams and native uncertainty propagation.
-Two subset passes and at most 32 evaluations are allowed.
+## Why input ordering matters
 
-The data, transformations, seeds, fitting budget and selection settings are
-unchanged from the R dev-based comparison. No test-directed parameter or sample
-changes were made for the master-based runs.
+When a receiving DGP uses both global and internal inputs, the linked backend
+consumes internal inputs first. The earlier master constructor remapped the
+connection indices without consistently reordering the deep-layer training
+inputs and their lengthscales. The correction aligns these quantities and
+orders connection-table rows by their receiving input positions.
 
-## Synthetic example
+An independent regression check uses an upstream GP whose maximum prediction
+error is 0.00000293. Passing its prediction through a link should closely agree
+with passing the corresponding observed value. The maximum downstream mean
+difference was 1.784694 with the previous mapping and 0.00000773 after correction.
+The regression also checks predictive variances and invariance to connection-row
+order. It tests actual information transmission, rather than inferring correct
+linking from different RMSE values.
 
-The main tutorial generates 80 training, 120 validation and 240 independent
-test rows using seed 1729 and the equations shown in the article.
+The earlier apparent pruning benefits were affected by this input-order error.
+[The historical record](VALIDATION-legacy.md) preserves the published numbers
+through f62b778. The results below supersede those numbers.
+
+## Unchanged data and selection settings
+
+Both tutorials keep their data, seed and fitting budget. Each scalar DGP uses
+two layers, two latent nodes, the squared exponential kernel, 40 iterations,
+10 ESS burn-in steps per iteration and 20 imputations. Seed 57 controls matched
+original/refitted component seeds and stable component imputation streams.
+
+Pruning minimises mean validation NRMSE. The normalising scales come from
+training responses. With `protect=0`, an admissible candidate cannot worsen any
+scored validation output beyond numerical tolerance. The search uses two subset
+passes and at most 32 evaluations. Neither the retained sources nor the number
+of retained connections is prescribed. The test set does not select the graph.
+
+## Operational example
+
+The same `prunlgp_example.csv` supplies 96 training, 48 validation and 96 test
+rows, two intermediate responses and three scored responses. Causal filtering,
+training-only scaling and the prediction information set are unchanged. The
+CSV is byte-identical to the earlier release, SHA-256:
+
+`cc22f368c4d863a75efdf91c2b7ff29df24fcfb8b63205ffc971633f75b9bd07`.
+
+The corrected run retains **u to a** and **v to c**, removing the other four
+internal connections independently. Both intermediate models therefore supply
+a retained downstream prediction. Model b continues to predict from its global
+inputs; no output model is deleted.
 
 | Quantity | Unpruned | Pruned |
 |---|---:|---:|
 | Internal connections | 6 | 2 |
-| Validation mean NRMSE | 0.919986 | 0.430324 |
-| Test mean NRMSE | 0.867040 | 0.407817 |
+| Validation mean NRMSE | 0.470206 | 0.459021 |
+| Test mean NRMSE | 0.444737 | 0.475874 |
 
-The selected graph retains u for a and v for c; b retains no internal input.
-All three validation and test errors decrease. These are synthetic results,
-not measurements from an operating system.
+| Output | Validation unpruned | Validation pruned | Test unpruned | Test pruned |
+|---|---:|---:|---:|---:|
+| a | 0.762719 | 0.761562 | 0.789238 | 0.854998 |
+| b | 0.435682 | 0.405167 | 0.302891 | 0.324359 |
+| c | 0.212217 | 0.210332 | 0.242083 | 0.248266 |
 
-## Operational-data companion
+The search record also shows why u was retained. Starting from the selected
+input subsets, the evaluated candidate that removes u from a and refits that
+receiver increases a's validation RMSE from 0.761562 to 0.871652. The other two
+outputs' errors remain unchanged. That candidate is rejected by validation
+protection. This is an observed predictive contribution of u, not a rule
+requiring the algorithm to retain at least one outgoing link from each source.
 
-The operational CSV is unchanged: 96 training, 48 validation and 96 test rows.
-Its SHA-256 is
-`cc22f368c4d863a75efdf91c2b7ff29df24fcfb8b63205ffc971633f75b9bd07`.
+All three validation errors decrease, but all three test errors increase.
+This operational example demonstrates output-specific selection and the limits
+of validation protection; it does not establish a held-out accuracy advantage.
+The CSV was not replaced or screened to force a preferred retained graph.
+It is a retrospective tutorial sample used in earlier development, not a new
+prospective field evaluation.
+
+## Synthetic example
+
+The unchanged generator provides 80 training, 120 validation and 240 independent
+test rows. The corrected network retains u to a, u to b, and v to c.
 
 | Quantity | Unpruned | Pruned |
 |---|---:|---:|
-| Internal connections | 6 | 1 |
-| Validation mean NRMSE | 0.885412 | 0.481936 |
-| Test mean NRMSE | 0.947889 | 0.582670 |
+| Internal connections | 6 | 3 |
+| Validation mean NRMSE | 0.191363 | 0.180517 |
+| Test mean NRMSE | 0.178999 | 0.169024 |
 
-Only v to a is retained. Models b and c still predict their outputs from global
-inputs. Test RMSE decreases by 34.88% for a, 28.59% for b and 48.57% for c.
-Mean test NRMSE decreases by 38.53% relative to the master-based unpruned model.
-The sample was used in earlier tutorial development and is not a new
-prospective evaluation.
+All three validation and test errors decrease. The generating equation for b
+uses only global inputs, yet retaining u improves finite-sample prediction.
+Predictive input selection does not identify causal relationships. These numbers
+reproduce the earlier dev-based comparison with the corresponding input-order
+correction ported to master.
 
-## Comparison with the R dev base
+## Reproduction
 
-The same Python backend, data and tutorial settings were used for both R bases.
+Both tutorial runners refit their models and save the actual candidate records,
+structures and per-output errors. The published articles come from executed
+R Markdown. The package checks and native tests are separate from tutorial fits.
+The input-order regression extends the native suite to 13 cases and 52
+expectations, all passed with no failures, warnings or skips on 12 November 2026.
+`R CMD build --no-manual` and `R CMD check --no-manual --no-build-vignettes`
+completed with **Status: OK**. The earlier tests also cover grouped copies, independent receivers,
+unchanged paths, zero links, serialization and parallel candidate evaluation.
 
-| Example | R base | Unpruned test mean NRMSE | Pruned test mean NRMSE | Retained links |
-|---|---|---:|---:|---:|
-| Synthetic | dev | 0.178999 | 0.169024 | 3 |
-| Synthetic | master | 0.867040 | 0.407817 | 2 |
-| Operational | dev | 0.444737 | 0.475874 | 2 |
-| Operational | master | 0.947889 | 0.582670 | 1 |
-
-Pruning improves both examples relative to their master-based baselines.
-However, the master-based pruned models have higher absolute test errors than
-the corresponding dev-based pruned models. A larger relative pruning benefit
-does not establish that master is the more accurate implementation.
-
-The upstream R branches differ in component construction and linked-input
-handling. In particular, dev changed the reordering of deep-layer global inputs
-and their length-scale parameters. This contribution preserves master's
-`lgp()` and `dgp()` implementations; it does not import the dev constructor.
-These comparisons change the R base as a whole and do not attribute all of the
-error difference to a single upstream change.
-
-## Checks and reproduction
-
-### New-fork verification, 12 November 2026
-
-The new public repository is a formal fork of `mingdeyu/dgpsi-R`. Its `master`
-branch remains at the upstream commit above. The complete contribution was
-migrated from source revision `04608eb41c729c2e7fcdecdea3d373daa104a0ac` without
-changing any R implementation, executable tutorial, test or example-data file.
-The former repository and its branches are retained as a private backup.
-
-The README's `remotes::install_github()` command installed source revision
-`9a61661751c86fb9512cf2e1dcc2ab7c4a39ebdf` into a separate R library. The export,
-installation directory and GitHub source metadata were checked. Subsequent
-edits only clarify documentation and record this verification.
-
-Fresh R sessions then ran:
-
-- All 12 native test cases: 48 passed expectations; no failures, warnings or skips.
-- All six R blocks in section 4 of `PRUNLGP.md`, unchanged and in order.
-- Both tutorial runners, fitting the models from scratch: about 77 seconds for
-  the synthetic example and 104 seconds for the operational example on this
-  machine while other checks were running.
-- `R CMD build --no-manual` followed by
-  `R CMD check --no-manual --no-build-vignettes`: **Status: OK**.
-
-The two new tutorial runs reproduce the tables above and retain respectively
-two and one internal connections. The README example reproduces the operational
-tutorial's per-output validation and test errors. Package and tutorial code,
-data and scientific settings were not changed to obtain these results.
-
-The R sessions and extension library were fresh; installed R dependencies and
-the recorded Python runtime were reused. This is a Windows/R 4.4.2 verification,
-not a clean operating-system installation or a cross-platform numerical test.
-Building the source archive without its vignette outputs produces two missing-
-vignette warnings; the documented check builds those outputs first. The native
-tests and executed tutorials are separate from the default package check.
-
-### Test coverage
-
-All 12 native tests and 48 expectations passed, with no failures, warnings or skips.
-The source build and `R CMD check --no-manual --no-build-vignettes` completed
-with Status OK. Executable tutorial chunks and the pruning implementation were
-also checked against the dev-based comparison; they are unchanged.
-
-The native tests cover scalar-output deletion, grouped copies, actual upstream
-information propagation, serial/parallel consistency, all-links-removed
-prediction and full/light serialization. A regression test verifies unchanged
-means and variances for unrelated paths after a deletion.
-
-Both tutorial scripts execute from scratch. The site articles and tables come
-from their actual model fits. Follow [PRUNLGP.md](PRUNLGP.md) for installation,
-execution and the native integration tests. Package checks skip Python training
-unless explicitly enabled; the executed tutorials are checked separately.
+Follow [PRUNLGP.md](PRUNLGP.md) for installation, Python setup, test commands,
+tutorial execution and upstream synchronization. Cross-platform numerical
+identity is not established by the Windows verification.

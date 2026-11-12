@@ -24,8 +24,9 @@ Then follow the
 and [function reference](https://zhuangchaoqun.github.io/dgpsi-R/reference/prunlgp.html).
 The main example uses synthetic data with explicit generating equations. An
 [operational-data companion](https://zhuangchaoqun.github.io/dgpsi-R/articles/prunlgp-operational.html)
-reports the same procedure on de-identified measurements and records the
-comparison with the earlier R dev-based implementation.
+reports the same procedure on de-identified measurements. The input-order
+correction, current results and earlier records are explained in
+[VALIDATION.md](VALIDATION.md).
 The contribution is based on the upstream `master` branch; the original package
 introduction and references are retained below.
 

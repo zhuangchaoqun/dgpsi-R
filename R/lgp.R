@@ -133,6 +133,9 @@ lgp <- function(struc, emulators, B = 10, activate = TRUE, verb = TRUE, id = NUL
     #if ( mode!='validate' & mode!='activate' ) stop("'mode' can only be either 'validate' or 'activate'.", call. = FALSE)
     if ( verb ) message("Processing emulators ...", appendLF = FALSE)
     struc <- validate_emulator_data(struc, emulators)
+    # Keep local input order independent of the order of connection-table rows.
+    struc <- struc %>%
+      dplyr::arrange(.data$To_Emulator, .data$From_Emulator != "Global", .data$To_Input)
     metadata <- infer_metadata_from_struc(struc)
     metadata$Pos_in_Layer <- stats::ave(seq_along(metadata$Emulator), metadata$Layer, FUN = seq_along)
     lgp_struc <- process_emulators(emulators, metadata)
@@ -260,8 +263,6 @@ lgp <- function(struc, emulators, B = 10, activate = TRUE, verb = TRUE, id = NUL
                   item$input_dim <- reticulate::np_array(as.integer(global_inputs - 1))
                   item$input <- item$input[,global_inputs,drop=F]
                   if (length(item$length)!=1) item$length <- item$length[global_inputs]
-                } else {
-                  if ( !is.null(item$connect) ) item$connect <- reticulate::np_array(as.integer(reorder_connect(item$connect + 1, global_inputs) - 1))
                 }
               }
             }
@@ -294,7 +295,19 @@ lgp <- function(struc, emulators, B = 10, activate = TRUE, verb = TRUE, id = NUL
                     item$input <- item$input[,other_emulator_inputs,drop=F]
                     if (length(item$length)!=1) item$length <- item$length[c(other_emulator_inputs, global_inputs)]
                   } else {
-                    if ( !is.null(item$connect) ) item$connect <- reticulate::np_array(as.integer(reorder_connect(item$connect + 1, c(other_emulator_inputs, global_inputs)) - 1))
+                    # The backend consumes internal inputs before external ones.
+                    # Reorder the stored bypass inputs and their lengthscales
+                    # together; remapping connect alone swaps their meaning.
+                    # Ported from upstream dev a62a319af8eeeafce541acade0887601b117e6f8.
+                    if (!is.null(item$connect)) {
+                      order <- c(other_emulator_inputs, global_inputs)
+                      item$global_input <- item$global_input[,order,drop=FALSE]
+                      if (length(item$length) != 1) {
+                        latent <- seq_len(ncol(item$input))
+                        item$length <- reticulate::np_array(c(item$length[latent],
+                          item$length[-latent][order]))
+                      }
+                    }
                   }
                 }
               }

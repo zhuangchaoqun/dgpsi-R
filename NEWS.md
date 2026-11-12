@@ -1,4 +1,5 @@
 # dgpsi 2.6.0-9000 (development version)
+- Corrected mixed global/internal input ordering in `lgp()` using the upstream dev fix: deep-layer training inputs, connection indices and lengthscales now remain aligned. Added a regression test and reran both prunlgp tutorials on their unchanged data.
 - Added `prunlgp()` for validation-based selection of internal inputs in scalar linked emulators, with system objectives, optional output protection, grouped copies and PSOCK candidate evaluation.
 - Fixed prediction for single-layer linked networks and metadata restoration after full linked-emulator serialisation.
 - Resolved Python environment import failure relating to `libcblas.so.3` on Intel CPUs when using MKL BLAS.

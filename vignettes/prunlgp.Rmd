@@ -31,6 +31,10 @@ The example uses the master-based R interface and Python backend recorded in
 [the validation notes](https://github.com/zhuangchaoqun/dgpsi-R/blob/prunlgp-master/VALIDATION.md). The data and fitting settings are fixed
 before selection.
 
+This revision includes the upstream correction for mixed global/internal input
+ordering in `lgp()`. The data generator, seed and pruning settings are unchanged;
+the validation notes preserve the earlier results affected by that mapping issue.
+
 This example starts with six internal connections. Two intermediate emulators,
 `u` and `v`, supply three downstream emulators, `a`, `b` and `c`. Each output has its own
 DGP and selects its own subset of the two internal inputs.
@@ -332,17 +336,17 @@ can retain different subsets of the same upstream outputs. An unchanged subset
 can also yield unchanged predictions when its ancestors and fitted model remain
 unchanged. This is why identical predictions can be a correct result for an unaffected path.
 
-The selected graph retains `u` for `a` and `v` for `c`; `b` uses only its global
-inputs. Selection uses the validation predictions, not the generating equations.
-This example recovers the expected input subsets, although the function is a
-prediction-based search rather than a causal discovery procedure.
+The selected graph retains `u` for `a` and `b`, and `v` for `c`. The generating
+equation for `b` uses only global inputs, yet retaining `u` improves the fitted
+model's validation performance. Selection targets finite-sample prediction;
+it does not identify causal dependencies from the generating equations.
 
 The [operational-data companion](prunlgp-operational.html) applies the same
 protected search to measured data. The [validation notes](../VALIDATION.html)
-also compare these results with the earlier R dev-based implementation. The
-master-based models show larger improvements relative to their own unpruned
-networks, but higher absolute test errors than the dev-based models. Compare
-both the baseline and selected errors when assessing the benefit of pruning.
+explain the input-order correction and preserve the earlier results. The
+corrected synthetic results reproduce the earlier R dev-based comparison.
+Compare both baseline and selected errors when assessing pruning, and keep
+validation selection separate from test evaluation.
 
 ## Check predictive intervals
 

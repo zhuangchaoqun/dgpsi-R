@@ -25,8 +25,9 @@ if (run_examples) {
 This companion to [the main tutorial](prunlgp.html) uses de-identified
 operational measurements and the same protected selection rule. The sample
 was used in earlier tutorial development; this is a worked example, not a
-new prospective study. The validation notes also compare the R master and
-dev implementations with the same data and fitting settings.
+new prospective study. This revision corrects the ordering of mixed global and
+internal inputs in `lgp()` and reruns the same CSV, seed and fitting settings.
+The earlier results and the correction are documented in the validation notes.
 
 A linked emulator passes intermediate predictions and their uncertainty to
 downstream models. Some of these inputs may add little predictive value.
@@ -312,6 +313,12 @@ were removed, and how the resulting predictions changed. Different receivers
 can retain different subsets of the same upstream outputs. An unchanged subset
 can also yield unchanged predictions when its ancestors and fitted model remain
 unchanged. This is why identical predictions can be a correct result for an unaffected path.
+
+With the corrected input mapping, `u` remains an input to `a`, and `v` remains
+an input to `c`. Both intermediate models therefore contribute to downstream
+prediction. The selected network has lower validation error, but higher test
+error than the unpruned network in this example. Retaining useful validation
+dependencies does not remove the need for a separate test-period assessment.
 
 ## Check predictive intervals
 

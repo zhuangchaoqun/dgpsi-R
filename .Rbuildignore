@@ -23,6 +23,7 @@
 ^LICENSE\.md$
 ^PRUNLGP\.md$
 ^VALIDATION\.md$
+^VALIDATION-legacy\.md$
 ^tools$
 ^tutorial-output$
 ^site$
