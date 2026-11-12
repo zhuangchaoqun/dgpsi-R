@@ -52,7 +52,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.6.0-9000" id="dgpsi-260-9000-development-version">dgpsi 2.6.0-9000 (development version)<a class="anchor" aria-label="anchor" href="#dgpsi-260-9000-development-version"></a></h2>
-<ul><li>Added <code><a href="../reference/prunlgp.html">prunlgp()</a></code> for validation-based selection of internal inputs in scalar linked emulators, with system objectives, optional output protection, grouped copies and PSOCK candidate evaluation.</li>
+<ul><li>Corrected mixed global/internal input ordering in <code><a href="../reference/lgp.html">lgp()</a></code> using the upstream dev fix: deep-layer training inputs, connection indices and lengthscales now remain aligned. Added a regression test and reran both prunlgp tutorials on their unchanged data.</li>
+<li>Added <code><a href="../reference/prunlgp.html">prunlgp()</a></code> for validation-based selection of internal inputs in scalar linked emulators, with system objectives, optional output protection, grouped copies and PSOCK candidate evaluation.</li>
 <li>Fixed prediction for single-layer linked networks and metadata restoration after full linked-emulator serialisation.</li>
 <li>Resolved Python environment import failure relating to <code>libcblas.so.3</code> on Intel CPUs when using MKL BLAS.</li>
 <li>Fixed Python import errors on Linux caused by <code>libstdc++.so.6</code> by prompting users during <code><a href="../reference/init_py.html">init_py()</a></code> to update <code>R_LD_LIBRARY_PATH</code> (automatically or manually) to prioritize the Python environment’s <code>lib</code>.</li>

@@ -104,6 +104,10 @@ predictions from the whole system.</p>
 recorded in <a href="https://github.com/zhuangchaoqun/dgpsi-R/blob/prunlgp-master/VALIDATION.md" class="external-link">the
 validation notes</a>. The data and fitting settings are fixed before
 selection.</p>
+<p>This revision includes the upstream correction for mixed
+global/internal input ordering in <code><a href="../reference/lgp.html">lgp()</a></code>. The data
+generator, seed and pruning settings are unchanged; the validation notes
+preserve the earlier results affected by that mapping issue.</p>
 <p>This example starts with six internal connections. Two intermediate
 emulators, <code>u</code> and <code>v</code>, supply three downstream
 emulators, <code>a</code>, <code>b</code> and <code>c</code>. Each
@@ -250,8 +254,8 @@ predictor.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">selected</span></span>
 <span><span class="co">#&gt; Pruned linked emulator</span></span>
-<span><span class="co">#&gt;   Validation loss: 0.919986 -&gt; 0.430324</span></span>
-<span><span class="co">#&gt;   Internal links: 6 -&gt; 2</span></span>
+<span><span class="co">#&gt;   Validation loss: 0.191363 -&gt; 0.180517</span></span>
+<span><span class="co">#&gt;   Internal links: 6 -&gt; 3</span></span>
 <span><span class="co">#&gt;   Evaluations: 17 (no_improvement)</span></span></code></pre></div>
 <p>At each visit, the function evaluates all internal-input subsets for
 the receiving output while holding other fitted components fixed. It
@@ -276,7 +280,7 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="odd">
 <td align="right">1</td>
 <td align="left">initial</td>
-<td align="right">0.9200</td>
+<td align="right">0.1914</td>
 <td align="right">6</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
@@ -292,15 +296,15 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="odd">
 <td align="right">3</td>
 <td align="left">round1:a</td>
-<td align="right">0.8719</td>
+<td align="right">0.3972</td>
 <td align="right">4</td>
-<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
 <td align="left">round1:a</td>
-<td align="right">0.6818</td>
+<td align="right">0.1875</td>
 <td align="right">5</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
@@ -308,7 +312,7 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="odd">
 <td align="right">5</td>
 <td align="left">round1:a</td>
-<td align="right">1.0176</td>
+<td align="right">0.3976</td>
 <td align="right">5</td>
 <td align="left">FALSE</td>
 <td align="left">FALSE</td>
@@ -316,7 +320,7 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="even">
 <td align="right">6</td>
 <td align="left">round1:b</td>
-<td align="right">0.4388</td>
+<td align="right">0.1870</td>
 <td align="right">3</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
@@ -324,7 +328,7 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="odd">
 <td align="right">7</td>
 <td align="left">round1:b</td>
-<td align="right">0.6204</td>
+<td align="right">0.1858</td>
 <td align="right">4</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
@@ -332,7 +336,7 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="even">
 <td align="right">8</td>
 <td align="left">round1:b</td>
-<td align="right">0.8347</td>
+<td align="right">0.1903</td>
 <td align="right">4</td>
 <td align="left">FALSE</td>
 <td align="left">FALSE</td>
@@ -340,63 +344,63 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="odd">
 <td align="right">9</td>
 <td align="left">round1:c</td>
-<td align="right">0.4641</td>
-<td align="right">1</td>
+<td align="right">0.4432</td>
+<td align="right">2</td>
 <td align="left">FALSE</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
 <td align="left">round1:c</td>
-<td align="right">0.4675</td>
-<td align="right">2</td>
+<td align="right">0.4492</td>
+<td align="right">3</td>
 <td align="left">FALSE</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
 <td align="right">11</td>
 <td align="left">round1:c</td>
-<td align="right">0.4303</td>
-<td align="right">2</td>
+<td align="right">0.1805</td>
+<td align="right">3</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="even">
 <td align="right">12</td>
 <td align="left">round2:a</td>
-<td align="right">0.6205</td>
-<td align="right">1</td>
-<td align="left">TRUE</td>
+<td align="right">0.3903</td>
+<td align="right">2</td>
+<td align="left">FALSE</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
 <td align="right">13</td>
 <td align="left">round2:a</td>
-<td align="right">0.7661</td>
-<td align="right">2</td>
+<td align="right">0.3907</td>
+<td align="right">3</td>
 <td align="left">FALSE</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
 <td align="right">14</td>
 <td align="left">round2:a</td>
-<td align="right">0.6685</td>
-<td align="right">3</td>
+<td align="right">0.1844</td>
+<td align="right">4</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
 <td align="right">15</td>
 <td align="left">round2:b</td>
-<td align="right">0.6119</td>
-<td align="right">3</td>
+<td align="right">0.1818</td>
+<td align="right">2</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
 <td align="right">16</td>
 <td align="left">round2:b</td>
-<td align="right">0.8263</td>
+<td align="right">0.1851</td>
 <td align="right">3</td>
 <td align="left">FALSE</td>
 <td align="left">FALSE</td>
@@ -404,7 +408,7 @@ not claim to solve the global combinatorial optimisation problem.</p>
 <tr class="odd">
 <td align="right">17</td>
 <td align="left">round2:b</td>
-<td align="right">0.6733</td>
+<td align="right">0.1823</td>
 <td align="right">4</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
@@ -457,12 +461,12 @@ Node positions are identical in both views.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu">network_view</span><span class="op">(</span><span class="va">selected</span><span class="op">$</span><span class="va">initial_model</span>, <span class="st">"Before pruning: six internal connections"</span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:100%;height:440px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"nodes":{"id":["Global","u","v","a","b","c"],"label":["Global","u\nDGP","v\nDGP","a\nDGP","b\nDGP","c\nDGP"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color:rgba(30, 144, 255, 1);'>Global Input<\/b> <\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> u<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> v<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> a<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> b<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 4<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> c<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>"],"level":[0,1,1,2,2,2],"group":["0","1-1","1-1","2-2","2-2","2-2"],"shape":["database","box","box","box","box","box"],"color":["#67B7F7","#F2767A","#F2767A","#6DB66E","#6DB66E","#6DB66E"],"x":[0,220,220,440,440,440],"y":[0,-100,100,-140,0,140]},"edges":{"from":["Global","Global","Global","Global","Global","u","u","u","v","v","v"],"to":["a","b","c","u","v","a","b","c","a","b","c"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1, 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1, 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 2<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 3<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 3<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 4<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 3<\/div>"],"arrows":["to","to","to","to","to","to","to","to","to","to","to"],"color":["#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#0072B2","#D55E00","#D55E00","#D55E00","#D55E00","#0072B2"],"dashes":[false,false,false,false,false,false,true,true,true,true,false],"width":[1,1,1,1,1,2,2,2,2,2,2]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","size":15,"font":{"face":"helvetica","ital":true,"color":"black","size":16}},"manipulation":{"enabled":false},"edges":{"hoverWidth":0.5,"selectionWidth":0.8,"arrows":{"to":{"enable":true,"scaleFactor":0.5}},"color":{"color":"darkgrey","highlight":"black","hover":"black"},"smooth":{"enabled":true,"type":"curvedCW","roundness":0.3}},"groups":{"0":{"borderWidthSelected":1.5,"color":{"background":"rgba(115, 184, 255, 1)","border":"rgba(30, 144, 255, 1)","hover":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"},"highlight":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"}}},"1-1":{"borderWidthSelected":3,"color":{"background":"rgba(240, 115, 115, 1)","border":"rgba(240, 115, 115, 1)","hover":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"},"highlight":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"}}},"useDefaultGroups":true,"2-2":{"borderWidthSelected":3,"color":{"background":"rgba(102, 180, 102, 1)","border":"rgba(102, 180, 102, 1)","hover":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"},"highlight":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"}}}},"interaction":{"hideEdgesOnDrag":false,"hover":true,"zoomSpeed":1},"layout":{"hierarchical":{"enabled":false}},"physics":{"enabled":false}},"groups":["0","1-1","2-2"],"width":"100%","height":"360px","idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":false,"main":"Select by ID"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"Before pruning: six internal connections","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"footer":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":false,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n    document.getElementById('maindiv' + el.id).style.height = 'calc(100% - 80px)';\n  }","data":null}]}}</script><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"nodes":{"id":["Global","u","v","a","b","c"],"label":["Global","u\nDGP","v\nDGP","a\nDGP","b\nDGP","c\nDGP"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color:rgba(30, 144, 255, 1);'>Global Input<\/b> <\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> u<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> v<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> a<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> b<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 4<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> c<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>"],"level":[0,1,1,2,2,2],"group":["0","1-1","1-1","2-2","2-2","2-2"],"shape":["database","box","box","box","box","box"],"color":["#67B7F7","#F2767A","#F2767A","#6DB66E","#6DB66E","#6DB66E"],"x":[0,220,220,440,440,440],"y":[0,-100,100,-140,0,140]},"edges":{"from":["Global","Global","Global","Global","Global","u","u","u","v","v","v"],"to":["a","b","c","u","v","a","b","c","a","b","c"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1, 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1, 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 2<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 3<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 3<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 4<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 3<\/div>"],"arrows":["to","to","to","to","to","to","to","to","to","to","to"],"color":["#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#0072B2","#0072B2","#D55E00","#D55E00","#D55E00","#0072B2"],"dashes":[false,false,false,false,false,false,false,true,true,true,false],"width":[1,1,1,1,1,2,2,2,2,2,2]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","size":15,"font":{"face":"helvetica","ital":true,"color":"black","size":16}},"manipulation":{"enabled":false},"edges":{"hoverWidth":0.5,"selectionWidth":0.8,"arrows":{"to":{"enable":true,"scaleFactor":0.5}},"color":{"color":"darkgrey","highlight":"black","hover":"black"},"smooth":{"enabled":true,"type":"curvedCW","roundness":0.3}},"groups":{"0":{"borderWidthSelected":1.5,"color":{"background":"rgba(115, 184, 255, 1)","border":"rgba(30, 144, 255, 1)","hover":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"},"highlight":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"}}},"1-1":{"borderWidthSelected":3,"color":{"background":"rgba(240, 115, 115, 1)","border":"rgba(240, 115, 115, 1)","hover":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"},"highlight":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"}}},"useDefaultGroups":true,"2-2":{"borderWidthSelected":3,"color":{"background":"rgba(102, 180, 102, 1)","border":"rgba(102, 180, 102, 1)","hover":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"},"highlight":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"}}}},"interaction":{"hideEdgesOnDrag":false,"hover":true,"zoomSpeed":1},"layout":{"hierarchical":{"enabled":false}},"physics":{"enabled":false}},"groups":["0","1-1","2-2"],"width":"100%","height":"360px","idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":false,"main":"Select by ID"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"Before pruning: six internal connections","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"footer":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":false,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n    document.getElementById('maindiv' + el.id).style.height = 'calc(100% - 80px)';\n  }","data":null}]}}</script><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">selected</span><span class="op">$</span><span class="va">structure</span><span class="op">$</span><span class="va">From_Emulator</span> <span class="op">!=</span> <span class="st">"Global"</span><span class="op">)</span></span>
 <span><span class="fu">network_view</span><span class="op">(</span><span class="va">selected</span>, <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"After pruning: %d internal %s"</span>, <span class="va">n_links</span>,</span>
 <span>  <span class="kw">if</span><span class="op">(</span><span class="va">n_links</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="st">"connection"</span> <span class="kw">else</span> <span class="st">"connections"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:100%;height:440px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"nodes":{"id":["Global","u","v","b","a","c"],"label":["Global","u\nDGP","v\nDGP","b\nDGP","a\nDGP","c\nDGP"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color:rgba(30, 144, 255, 1);'>Global Input<\/b> <\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> u<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> v<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> b<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 2<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 3<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> a<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> c<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>"],"level":[0,1,1,1,2,2],"group":["0","1-1","1-1","1-1","2-2","2-2"],"shape":["database","box","box","box","box","box"],"color":["#67B7F7","#F2767A","#F2767A","#6DB66E","#6DB66E","#6DB66E"],"x":[0,220,220,440,440,440],"y":[0,-100,100,0,-140,140]},"edges":{"from":["Global","Global","Global","Global","Global","u","v"],"to":["a","b","c","u","v","a","c"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1, 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1, 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 2<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>"],"arrows":["to","to","to","to","to","to","to"],"color":["#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#0072B2","#0072B2"],"dashes":[false,false,false,false,false,false,false],"width":[1,1,1,1,1,2,2]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","size":15,"font":{"face":"helvetica","ital":true,"color":"black","size":16}},"manipulation":{"enabled":false},"edges":{"hoverWidth":0.5,"selectionWidth":0.8,"arrows":{"to":{"enable":true,"scaleFactor":0.5}},"color":{"color":"darkgrey","highlight":"black","hover":"black"},"smooth":{"enabled":true,"type":"curvedCW","roundness":0.3}},"groups":{"0":{"borderWidthSelected":1.5,"color":{"background":"rgba(115, 184, 255, 1)","border":"rgba(30, 144, 255, 1)","hover":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"},"highlight":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"}}},"1-1":{"borderWidthSelected":3,"color":{"background":"rgba(240, 115, 115, 1)","border":"rgba(240, 115, 115, 1)","hover":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"},"highlight":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"}}},"useDefaultGroups":true,"2-2":{"borderWidthSelected":3,"color":{"background":"rgba(102, 180, 102, 1)","border":"rgba(102, 180, 102, 1)","hover":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"},"highlight":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"}}}},"interaction":{"hideEdgesOnDrag":false,"hover":true,"zoomSpeed":1},"layout":{"hierarchical":{"enabled":false}},"physics":{"enabled":false}},"groups":["0","1-1","2-2"],"width":"100%","height":"360px","idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":false,"main":"Select by ID"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"After pruning: 2 internal connections","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"footer":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":false,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n    document.getElementById('maindiv' + el.id).style.height = 'calc(100% - 80px)';\n  }","data":null}]}}</script><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"nodes":{"id":["Global","u","v","a","b","c"],"label":["Global","u\nDGP","v\nDGP","a\nDGP","b\nDGP","c\nDGP"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color:rgba(30, 144, 255, 1);'>Global Input<\/b> <\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> u<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator ID:<\/b> v<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Input Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Global Output Indices:<\/b> NA<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Layer in Network:<\/b> 1<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(227, 26, 28, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> a<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> b<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator ID:<\/b> c<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Emulator Type:<\/b> DGP<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Input Dim(s):<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Total Output Dim(s):<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Global Output Indices:<\/b> 1<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Layer in Network:<\/b> 2<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Position in Layer:<\/b> 3<br><b style='font-size: 12px; color: rgba(0, 139, 0, 1);'>Vecchia Mode:<\/b> OFF<\/div>"],"level":[0,1,1,2,2,2],"group":["0","1-1","1-1","2-2","2-2","2-2"],"shape":["database","box","box","box","box","box"],"color":["#67B7F7","#F2767A","#F2767A","#6DB66E","#6DB66E","#6DB66E"],"x":[0,220,220,440,440,440],"y":[0,-100,100,-140,0,140]},"edges":{"from":["Global","Global","Global","Global","Global","u","u","v"],"to":["a","b","c","u","v","a","b","c"],"title":["<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1, 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1, 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 3<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 2<br><b style='font-size: 12px;'>To Dim(s):<\/b> 1<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 3<\/div>","<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5em; color: #333;'><b style='font-size: 12px;'>From Dim(s):<\/b> 1<br><b style='font-size: 12px;'>To Dim(s):<\/b> 2<\/div>"],"arrows":["to","to","to","to","to","to","to","to"],"color":["#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#BBBBBB","#0072B2","#0072B2","#0072B2"],"dashes":[false,false,false,false,false,false,false,false],"width":[1,1,1,1,1,2,2,2]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","size":15,"font":{"face":"helvetica","ital":true,"color":"black","size":16}},"manipulation":{"enabled":false},"edges":{"hoverWidth":0.5,"selectionWidth":0.8,"arrows":{"to":{"enable":true,"scaleFactor":0.5}},"color":{"color":"darkgrey","highlight":"black","hover":"black"},"smooth":{"enabled":true,"type":"curvedCW","roundness":0.3}},"groups":{"0":{"borderWidthSelected":1.5,"color":{"background":"rgba(115, 184, 255, 1)","border":"rgba(30, 144, 255, 1)","hover":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"},"highlight":{"background":"rgba(30, 144, 255, 1)","border":"rgba(115, 184, 255, 1)"}}},"1-1":{"borderWidthSelected":3,"color":{"background":"rgba(240, 115, 115, 1)","border":"rgba(240, 115, 115, 1)","hover":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"},"highlight":{"background":"rgba(227, 26, 28, 1)","border":"rgba(227, 26, 28, 1)"}}},"useDefaultGroups":true,"2-2":{"borderWidthSelected":3,"color":{"background":"rgba(102, 180, 102, 1)","border":"rgba(102, 180, 102, 1)","hover":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"},"highlight":{"background":"rgba(0, 139, 0, 1)","border":"rgba(0, 139, 0, 1)"}}}},"interaction":{"hideEdgesOnDrag":false,"hover":true,"zoomSpeed":1},"layout":{"hierarchical":{"enabled":false}},"physics":{"enabled":false}},"groups":["0","1-1","2-2"],"width":"100%","height":"360px","idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":false,"main":"Select by ID"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"After pruning: 3 internal connections","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"footer":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":false,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n    document.getElementById('maindiv' + el.id).style.height = 'calc(100% - 80px)';\n  }","data":null}]}}</script><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">original_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">selected</span><span class="op">$</span><span class="va">initial_structure</span>, <span class="va">From_Emulator</span> <span class="op">!=</span> <span class="st">"Global"</span><span class="op">)</span></span>
 <span><span class="va">retained_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">selected</span><span class="op">$</span><span class="va">structure</span>, <span class="va">From_Emulator</span> <span class="op">!=</span> <span class="st">"Global"</span><span class="op">)</span></span>
 <span><span class="va">connection_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
@@ -496,10 +500,10 @@ Node positions are identical in both views.</p>
 <tr class="even">
 <td align="left">b</td>
 <td align="right">2</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="left">None</td>
-<td align="left">u, v</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">u</td>
+<td align="left">v</td>
 </tr>
 <tr class="odd">
 <td align="left">c</td>
@@ -558,44 +562,44 @@ are an independent sample from the generating system.</p>
 <tr class="odd">
 <td align="left">validation</td>
 <td align="left">a</td>
-<td align="right">0.9678</td>
-<td align="right">0.2531</td>
-<td align="right">73.84</td>
+<td align="right">0.2061</td>
+<td align="right">0.1944</td>
+<td align="right">5.64</td>
 </tr>
 <tr class="even">
 <td align="left">validation</td>
 <td align="left">b</td>
-<td align="right">0.8478</td>
-<td align="right">0.1189</td>
-<td align="right">85.98</td>
+<td align="right">0.1202</td>
+<td align="right">0.1150</td>
+<td align="right">4.33</td>
 </tr>
 <tr class="odd">
 <td align="left">validation</td>
 <td align="left">c</td>
-<td align="right">0.9444</td>
-<td align="right">0.9190</td>
-<td align="right">2.69</td>
+<td align="right">0.2478</td>
+<td align="right">0.2321</td>
+<td align="right">6.34</td>
 </tr>
 <tr class="even">
 <td align="left">test</td>
 <td align="left">a</td>
-<td align="right">0.8910</td>
-<td align="right">0.2577</td>
-<td align="right">71.08</td>
+<td align="right">0.1962</td>
+<td align="right">0.1913</td>
+<td align="right">2.45</td>
 </tr>
 <tr class="odd">
 <td align="left">test</td>
 <td align="left">b</td>
-<td align="right">0.8385</td>
-<td align="right">0.1175</td>
-<td align="right">85.98</td>
+<td align="right">0.1231</td>
+<td align="right">0.1173</td>
+<td align="right">4.76</td>
 </tr>
 <tr class="even">
 <td align="left">test</td>
 <td align="left">c</td>
-<td align="right">0.8716</td>
-<td align="right">0.8483</td>
-<td align="right">2.68</td>
+<td align="right">0.2177</td>
+<td align="right">0.1985</td>
+<td align="right">8.84</td>
 </tr>
 </tbody>
 </table>
@@ -612,11 +616,11 @@ are an independent sample from the generating system.</p>
 <tbody>
 <tr class="odd">
 <td align="left">Unpruned</td>
-<td align="right">0.8670</td>
+<td align="right">0.179</td>
 </tr>
 <tr class="even">
 <td align="left">Pruned</td>
-<td align="right">0.4078</td>
+<td align="right">0.169</td>
 </tr>
 </tbody>
 </table>
@@ -644,9 +648,9 @@ Validation and test errors of the three scored outputs. Lower values are
 better.
 </p>
 </div>
-<p>The selected network reduces the validation objective by 53.2% while
-retaining 2 of the six internal links. Its mean test NRMSE is 0.4078,
-compared with 0.8670 before pruning.</p>
+<p>The selected network reduces the validation objective by 5.7% while
+retaining 3 of the six internal links. Its mean test NRMSE is 0.1690,
+compared with 0.1790 before pruning.</p>
 <p>The validation objective determines the selected graph. A smaller
 validation loss does not imply that every output, or the held-out test
 period, will improve. The tables report both partitions so that this
@@ -660,18 +664,17 @@ outputs. An unchanged subset can also yield unchanged predictions when
 its ancestors and fitted model remain unchanged. This is why identical
 predictions can be a correct result for an unaffected path.</p>
 <p>The selected graph retains <code>u</code> for <code>a</code> and
-<code>v</code> for <code>c</code>; <code>b</code> uses only its global
-inputs. Selection uses the validation predictions, not the generating
-equations. This example recovers the expected input subsets, although
-the function is a prediction-based search rather than a causal discovery
-procedure.</p>
+<code>b</code>, and <code>v</code> for <code>c</code>. The generating
+equation for <code>b</code> uses only global inputs, yet retaining
+<code>u</code> improves the fitted model’s validation performance.
+Selection targets finite-sample prediction; it does not identify causal
+dependencies from the generating equations.</p>
 <p>The <a href="prunlgp-operational.html">operational-data companion</a>
-applies the same protected search to measured data. The <a href="../VALIDATION.html">validation notes</a> also compare these
-results with the earlier R dev-based implementation. The master-based
-models show larger improvements relative to their own unpruned networks,
-but higher absolute test errors than the dev-based models. Compare both
-the baseline and selected errors when assessing the benefit of
-pruning.</p>
+applies the same protected search to measured data. The <a href="../VALIDATION.html">validation notes</a> explain the input-order
+correction and preserve the earlier results. The corrected synthetic
+results reproduce the earlier R dev-based comparison. Compare both
+baseline and selected errors when assessing pruning, and keep validation
+selection separate from test evaluation.</p>
 </div>
 <div class="section level2">
 <h2 id="check-predictive-intervals">Check predictive intervals<a class="anchor" aria-label="anchor" href="#check-predictive-intervals"></a>
@@ -708,44 +711,44 @@ objective.</p>
 <tr class="odd">
 <td align="left">Unpruned</td>
 <td align="left">a</td>
-<td align="right">0.629</td>
-<td align="right">1.836</td>
-<td align="right">7.477</td>
+<td align="right">1.000</td>
+<td align="right">1.617</td>
+<td align="right">1.617</td>
 </tr>
 <tr class="even">
 <td align="left">Unpruned</td>
 <td align="left">b</td>
-<td align="right">0.662</td>
-<td align="right">1.593</td>
-<td align="right">7.787</td>
+<td align="right">0.950</td>
+<td align="right">0.485</td>
+<td align="right">0.567</td>
 </tr>
 <tr class="odd">
 <td align="left">Unpruned</td>
 <td align="left">c</td>
-<td align="right">0.525</td>
-<td align="right">1.364</td>
-<td align="right">10.083</td>
+<td align="right">1.000</td>
+<td align="right">1.562</td>
+<td align="right">1.562</td>
 </tr>
 <tr class="even">
 <td align="left">Pruned</td>
 <td align="left">a</td>
 <td align="right">1.000</td>
-<td align="right">1.665</td>
-<td align="right">1.665</td>
+<td align="right">1.590</td>
+<td align="right">1.590</td>
 </tr>
 <tr class="odd">
 <td align="left">Pruned</td>
 <td align="left">b</td>
-<td align="right">0.963</td>
-<td align="right">0.496</td>
-<td align="right">0.557</td>
+<td align="right">0.975</td>
+<td align="right">0.526</td>
+<td align="right">0.567</td>
 </tr>
 <tr class="even">
 <td align="left">Pruned</td>
 <td align="left">c</td>
-<td align="right">0.550</td>
-<td align="right">1.367</td>
-<td align="right">9.094</td>
+<td align="right">1.000</td>
+<td align="right">1.552</td>
+<td align="right">1.552</td>
 </tr>
 </tbody>
 </table>
