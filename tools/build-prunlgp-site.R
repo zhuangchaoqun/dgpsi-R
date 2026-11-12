@@ -21,5 +21,7 @@ pkgdown::build_article("prunlgp-operational", pkg=root, new_process=FALSE,
   override=override, quiet=FALSE)
 source(file.path(root, "tools", "set-prunlgp-attribution.R"), local=TRUE)
 set_prunlgp_attribution(root)
+source(file.path(root, "tools", "fix-site-icons.R"), local=TRUE)
+fix_site_icons(root)
 file.create(file.path(root,"docs",".nojekyll"))
 cat("Site built in ",file.path(root,"docs"),"\n",sep="")
